@@ -6,9 +6,9 @@
 {-# LANGUAGE RankNTypes #-}
 
 module Web.Telegram.Types.Internal.Update where
-
 import Data.Aeson
 import Data.Aeson.Types
+import Data.Int (Int64)
 import Data.Monoid
 import Data.Text (Text)
 import Data.Time.Clock.POSIX
@@ -18,7 +18,6 @@ import qualified Web.Telegram.Types.Internal.InlineQuery as IQ
 import qualified Web.Telegram.Types.Internal.Media as M
 import Web.Telegram.Types.Internal.UpdateType (UpdateType)
 import Web.Telegram.Types.Internal.Utils
-import Data.Int (Int64)
 
 -- | An incoming update
 data Update
@@ -77,6 +76,7 @@ data Update
       { updateId :: Int64,
         answer :: M.PollAnswer
       }
+  | Unknown {updateId :: Int64}
   deriving (Show, Eq, Generic, Default)
 
 instance FromJSON Update where
@@ -88,41 +88,41 @@ instance FromJSON Update where
           return $ fmap (c uid) m
     l <-
       sequence
-        [ pair ("message", Message),
-          pair ("edited_message", EditedMessage),
-          pair ("channel_post", ChannelPost),
-          pair ("edited_channel_post", EditedChannelPost),
-          pair ("inline_query", InlineQuery),
-          pair ("chosen_inline_result", ChosenInlineResult),
-          pair ("callback_query", CallbackQuery),
-          pair ("shipping_query", ShippingQuery),
-          pair ("pre_checkout_query", PreCheckoutQuery),
-          pair ("poll", PollUpdate),
-          pair ("poll_answer", PollAnswer)
-        ]
+          [ pair ("message", Message),
+            pair ("edited_message", EditedMessage),
+            pair ("channel_post", ChannelPost),
+            pair ("edited_channel_post", EditedChannelPost),
+            pair ("inline_query", InlineQuery),
+            pair ("chosen_inline_result", ChosenInlineResult),
+            pair ("callback_query", CallbackQuery),
+            pair ("shipping_query", ShippingQuery),
+            pair ("pre_checkout_query", PreCheckoutQuery),
+            pair ("poll", PollUpdate),
+            pair ("poll_answer", PollAnswer),
+            pure $ Just $ Unknown { updateId = uid }
+          ]
     let r = getFirst $ foldMap First l
     case r of
       Nothing -> fail "Empty Message"
       Just r' -> return r'
 
 -- | Contains information about the current status of a webhook.
-data WebhookInfo
-  = WebhookInfo
-      { -- | Webhook URL, may be empty if webhook is not set up
-        url :: Text,
-        -- | True, if a custom certificate was provided for webhook certificate checks
-        hasCustomCertificate :: Bool,
-        -- | Number of updates awaiting delivery
-        pendingUpdateCount :: Int,
-        -- | Unix time for the most recent error that happened when trying to deliver an update via webhook
-        lastErrorDate :: Maybe POSIXTime,
-        -- | Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
-        lastErrorMessage :: Maybe Text,
-        -- | Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
-        maxConnections :: Maybe Int,
-        -- | A list of update types the bot is subscribed to. Defaults to all update types
-        allowedUpdates :: Maybe [UpdateType]
-      }
+data WebhookInfo = WebhookInfo
+  { -- | Webhook URL, may be empty if webhook is not set up
+    url :: Text,
+    -- | True, if a custom certificate was provided for webhook certificate checks
+    hasCustomCertificate :: Bool,
+    -- | Number of updates awaiting delivery
+    pendingUpdateCount :: Int,
+    -- | Unix time for the most recent error that happened when trying to deliver an update via webhook
+    lastErrorDate :: Maybe POSIXTime,
+    -- | Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
+    lastErrorMessage :: Maybe Text,
+    -- | Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
+    maxConnections :: Maybe Int,
+    -- | A list of update types the bot is subscribed to. Defaults to all update types
+    allowedUpdates :: Maybe [UpdateType]
+  }
   deriving (Show, Eq, Generic, Default)
   deriving
     (FromJSON, ToJSON)

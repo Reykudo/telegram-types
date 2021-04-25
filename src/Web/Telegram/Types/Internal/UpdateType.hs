@@ -20,6 +20,7 @@ data UpdateType
   | PreCheckoutQuery
   | PollUpdate
   | PollAnswer
+  | Unknown
   deriving (Show, Eq, Generic, Default, Ord, Enum)
   deriving
     (FromJSON, ToJSON)
