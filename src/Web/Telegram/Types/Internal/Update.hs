@@ -6,6 +6,8 @@
 {-# LANGUAGE RankNTypes #-}
 
 module Web.Telegram.Types.Internal.Update where
+
+import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Aeson.Types
 import Data.Int (Int64)
@@ -79,32 +81,45 @@ data Update
   | Unknown {updateId :: Int64}
   deriving (Show, Eq, Generic, Default)
 
+fallBackParser :: Value -> Parser Update
+fallBackParser =
+  withObject
+    "Fallback update object"
+    ( \o -> do
+        val <- o .: "update_id"
+        pure $ Unknown val
+    )
+
 instance FromJSON Update where
-  parseJSON = withObject "Update object" $ \o -> do
-    uid <- o .: "update_id"
-    let pair :: FromJSON a => (Text, Int64 -> a -> Update) -> Parser (Maybe Update)
-        pair (k, c) = do
-          m <- o .:? k
-          return $ fmap (c uid) m
-    l <-
-      sequence
-          [ pair ("message", Message),
-            pair ("edited_message", EditedMessage),
-            pair ("channel_post", ChannelPost),
-            pair ("edited_channel_post", EditedChannelPost),
-            pair ("inline_query", InlineQuery),
-            pair ("chosen_inline_result", ChosenInlineResult),
-            pair ("callback_query", CallbackQuery),
-            pair ("shipping_query", ShippingQuery),
-            pair ("pre_checkout_query", PreCheckoutQuery),
-            pair ("poll", PollUpdate),
-            pair ("poll_answer", PollAnswer),
-            pure $ Just $ Unknown { updateId = uid }
-          ]
-    let r = getFirst $ foldMap First l
-    case r of
-      Nothing -> fail "Empty Message"
-      Just r' -> return r'
+  parseJSON v =
+    ( withObject "Update object" $ \o -> do
+        uid <- o .: "update_id"
+        let pair :: FromJSON a => (Text, Int64 -> a -> Update) -> Parser (Maybe Update)
+            pair (k, c) = do
+              m <- o .:? k
+              return $ fmap (c uid) m
+        l <-
+          sequence
+            [ pair ("message", Message),
+              pair ("edited_message", EditedMessage),
+              pair ("channel_post", ChannelPost),
+              pair ("edited_channel_post", EditedChannelPost),
+              pair ("inline_query", InlineQuery),
+              pair ("chosen_inline_result", ChosenInlineResult),
+              pair ("callback_query", CallbackQuery),
+              pair ("shipping_query", ShippingQuery),
+              pair ("pre_checkout_query", PreCheckoutQuery),
+              pair ("poll", PollUpdate),
+              pair ("poll_answer", PollAnswer),
+              pure $ Just $ Unknown {updateId = uid}
+            ]
+        let r = getFirst $ foldMap First l
+        case r of
+          Nothing -> fail "Empty Message"
+          Just r' -> return r'
+    )
+      v
+      <|> fallBackParser v
 
 -- | Contains information about the current status of a webhook.
 data WebhookInfo = WebhookInfo
