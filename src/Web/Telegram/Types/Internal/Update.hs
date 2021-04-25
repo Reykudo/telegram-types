@@ -18,62 +18,63 @@ import qualified Web.Telegram.Types.Internal.InlineQuery as IQ
 import qualified Web.Telegram.Types.Internal.Media as M
 import Web.Telegram.Types.Internal.UpdateType (UpdateType)
 import Web.Telegram.Types.Internal.Utils
+import Data.Int (Int64)
 
 -- | An incoming update
 data Update
   = -- | New incoming message of any kind — text, photo, sticker, etc.
     Message
-      { updateId :: Int,
+      { updateId :: Int64,
         message :: C.Message
       }
   | -- | New version of a message that is known to the bot and was edited
     EditedMessage
-      { updateId :: Int,
+      { updateId :: Int64,
         message :: C.Message
       }
   | -- | New incoming channel post of any kind — text, photo, sticker, etc.
     ChannelPost
-      { updateId :: Int,
+      { updateId :: Int64,
         message :: C.Message
       }
   | -- | New version of a channel post that is known to the bot and was edited
     EditedChannelPost
-      { updateId :: Int,
+      { updateId :: Int64,
         message :: C.Message
       }
   | -- | New incoming inline query
     InlineQuery
-      { updateId :: Int,
+      { updateId :: Int64,
         iquery :: IQ.InlineQuery
       }
   | -- | The result of an inline query that was chosen by a user and sent to their chat partner. Please see our documentation on the feedback collecting for details on how to enable these updates for your bot
     ChosenInlineResult
-      { updateId :: Int,
+      { updateId :: Int64,
         result :: IQ.ChosenInlineResult
       }
   | -- | New incoming callback query
     CallbackQuery
-      { updateId :: Int,
+      { updateId :: Int64,
         cbquery :: C.CallbackQuery
       }
   | -- | New incoming shipping query. Only for invoices with flexible price
     ShippingQuery
-      { updateId :: Int,
+      { updateId :: Int64,
         squery :: C.ShippingQuery
       }
   | -- | New incoming pre-checkout query. Contains full information about checkout
     PreCheckoutQuery
-      { updateId :: Int,
+      { updateId :: Int64,
         pcquery :: C.PreCheckoutQuery
       }
   | -- | New poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot
     PollUpdate
-      { updateId :: Int,
+      { updateId :: Int64,
         poll :: M.Poll
       }
   | -- | A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
     PollAnswer
-      { updateId :: Int,
+      { updateId :: Int64,
         answer :: M.PollAnswer
       }
   deriving (Show, Eq, Generic, Default)
@@ -81,7 +82,7 @@ data Update
 instance FromJSON Update where
   parseJSON = withObject "Update object" $ \o -> do
     uid <- o .: "update_id"
-    let pair :: FromJSON a => (Text, Int -> a -> Update) -> Parser (Maybe Update)
+    let pair :: FromJSON a => (Text, Int64 -> a -> Update) -> Parser (Maybe Update)
         pair (k, c) = do
           m <- o .:? k
           return $ fmap (c uid) m

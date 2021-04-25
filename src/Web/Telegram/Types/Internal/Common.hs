@@ -82,7 +82,7 @@ instance ToJSON Message where
 -- |
 data MessageMetadata
   = MMetadata
-      { messageId :: Int,
+      { messageId :: Int64,
         from :: Maybe User,
         date :: POSIXTime,
         chat :: Chat,
@@ -231,7 +231,7 @@ data MessageEntityType
 data MessageEntity
   = MessageEntity
       { entityType :: MessageEntityType,
-        offset :: Int,
+        offset :: Int64,
         length :: Int,
         url :: Maybe Text,
         user :: Maybe User,

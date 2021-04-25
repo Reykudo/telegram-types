@@ -89,14 +89,24 @@ module Web.Telegram.Types
   )
 where
 
-import Data.Aeson
 import Data.Coerce
-import Data.Int
 import Data.OpenUnion
-import Data.Text (Text)
-import Deriving.Aeson
 import Servant.API
 import Web.Telegram.Types.Internal.Common
+    ( SuccessfulPayment(..),
+      OrderInfo(..),
+      ShippingAddress(..),
+      ChatPermissions(..),
+      ChatMember(..),
+      ChatStatus(..),
+      ChatPhoto(..),
+      MessageEntity(..),
+      MessageEntityType(..),
+      MessageContent(..),
+      MessageMetadata(..),
+      Message(..),
+      Chat(..),
+      ChatType(..) )
 import Web.Telegram.Types.Internal.InputMedia
 import Web.Telegram.Types.Internal.Media
 import Web.Telegram.Types.Internal.Sticker

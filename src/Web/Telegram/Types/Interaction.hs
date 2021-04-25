@@ -5,6 +5,8 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 -- | User interactions: customized keyboards, clickable buttons, popups and inline displays
 module Web.Telegram.Types.Interaction
@@ -36,21 +38,25 @@ import Web.Telegram.Types.Internal.Common
 import Web.Telegram.Types.Internal.Keyboard
 import Web.Telegram.Types.Internal.Utils
 
-type ReplyMarkup =
-  Union
-    '[ InlineKeyboardMarkup,
-       ReplyKeyboardMarkup,
-       ReplyKeyboardRemove,
-       ForceReply
-     ]
-
+newtype ReplyMarkup
+  = ReplyMarkup
+      ( Union
+          '[ InlineKeyboardMarkup,
+             ReplyKeyboardMarkup,
+             ReplyKeyboardRemove,
+             ForceReply
+           ]
+      )
+  deriving (Show, Eq, Generic, Default)
 instance ToJSON ReplyMarkup where
-  toJSON =
-    (\(inlineM :: InlineKeyboardMarkup) -> toJSON inlineM)
-      @> (\(replyM :: ReplyKeyboardMarkup) -> toJSON replyM)
-      @> (\(replyR :: ReplyKeyboardRemove) -> toJSON replyR)
-      @> (\(forceR :: ForceReply) -> toJSON forceR)
-      @> typesExhausted
+  toJSON (ReplyMarkup v) =
+    ( (\(inlineM :: InlineKeyboardMarkup) -> toJSON inlineM)
+        @> (\(replyM :: ReplyKeyboardMarkup) -> toJSON replyM)
+        @> (\(replyR :: ReplyKeyboardRemove) -> toJSON replyR)
+        @> (\(forceR :: ForceReply) -> toJSON forceR)
+        @> typesExhausted
+    )
+      v
 
 deriving via Serialize ReplyMarkup instance ToHttpApiData ReplyMarkup
 

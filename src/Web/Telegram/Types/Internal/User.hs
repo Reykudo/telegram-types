@@ -15,12 +15,13 @@ import Data.Text (Text)
 import Deriving.Aeson
 import Servant.API
 import Web.Telegram.Types.Internal.Utils
+import Data.Int (Int64)
 
 -- | A Telegram user or bot.
 data User
   = User
       { -- | Unique identifier for this user or bot
-        userId :: Int,
+        userId :: Int64,
         -- | True, if this user is a bot
         isBot :: Bool,
         -- | User's or bot's first name
