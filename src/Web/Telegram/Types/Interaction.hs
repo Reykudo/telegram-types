@@ -5,8 +5,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 -- | User interactions: customized keyboards, clickable buttons, popups and inline displays
 module Web.Telegram.Types.Interaction
@@ -47,7 +45,8 @@ newtype ReplyMarkup
              ForceReply
            ]
       )
-  deriving (Show, Eq, Generic, Default)
+  deriving Default via ReplyMarkup
+  deriving (Show, Eq, Generic)
 instance ToJSON ReplyMarkup where
   toJSON (ReplyMarkup v) =
     ( (\(inlineM :: InlineKeyboardMarkup) -> toJSON inlineM)
