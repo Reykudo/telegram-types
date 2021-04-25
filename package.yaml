@@ -1,0 +1,86 @@
+name: telegram-types
+version: 0.4.1
+github: "githubuser/telegram-types"
+license: BSD3
+author: "Author name here"
+maintainer: "example@example.com"
+copyright: "2021 Author name here"
+
+extra-source-files:
+  - README.md
+  - ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description: Please see the README on GitHub at <https://github.com/githubuser/telegram-types#readme>
+
+dependencies:
+  - base >=4.10 && <5
+  - aeson
+  - bytestring
+  - conduit
+  - containers
+  - http-client
+  - http-client-tls
+  - http-conduit
+  - optics-core
+  - optics-th
+  - text
+  - time
+  - open-union
+  - deriving-aeson
+  - servant
+  - filepath
+  - mime-types
+  - servant-multipart
+library:
+  source-dirs: src
+
+ghc-options:
+  - -Wall
+  - -funbox-strict-fields
+default-extensions:
+    NoStarIsType
+    BangPatterns
+    ConstraintKinds
+    DataKinds
+    DefaultSignatures
+    DeriveFoldable
+    DeriveFunctor
+    DeriveGeneric
+    DeriveTraversable
+    DerivingStrategies
+    DerivingVia
+    DuplicateRecordFields
+    EmptyCase
+    FlexibleContexts
+    FlexibleInstances
+    FunctionalDependencies
+    GADTs
+    GeneralizedNewtypeDeriving
+    InstanceSigs
+    KindSignatures
+    LambdaCase
+    MultiWayIf
+    NamedFieldPuns
+    OverloadedStrings
+    PartialTypeSignatures
+    PatternSynonyms
+    QuantifiedConstraints
+    RecordWildCards
+    RoleAnnotations
+    ScopedTypeVariables
+    StrictData
+    TemplateHaskell
+    TupleSections
+    TypeApplications
+    TypeFamilies
+    TypeFamilyDependencies
+    TypeOperators
+    UndecidableInstances
+    ViewPatterns
