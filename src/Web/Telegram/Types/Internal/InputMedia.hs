@@ -18,7 +18,7 @@ import Data.Maybe (catMaybes)
 import Data.OpenUnion
 import Data.Text (Text)
 import Deriving.Aeson
-import Servant.API
+import Servant.API hiding (Union)
 import Servant.Multipart
 import Web.Telegram.Types.Internal.InputFile
 import Web.Telegram.Types.Internal.Utils

@@ -31,7 +31,7 @@ where
 import Data.Aeson
 import Data.OpenUnion
 import Deriving.Aeson
-import Servant.API
+import Servant.API hiding (Union)
 import Web.Telegram.Types.Internal.Common
 import Web.Telegram.Types.Internal.Keyboard
 import Web.Telegram.Types.Internal.Utils

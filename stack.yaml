@@ -17,7 +17,7 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-15.7
+resolver: lts-17.10
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -43,7 +43,8 @@ extra-deps:
 - open-union-0.4.0.0@sha256:1c8f8090054b0974e95e44bed88e74fff956ba2120aade6e8deea92d65ef5e49,3503
 - servant-multipart-0.12@sha256:aa81dd0478270ade4a21b75611d5bc9cce8107df2e89c37b9964a3421629825d,2761
 - deriving-aeson-0.2.6.1@sha256:bd7930b334afab3eb53dcdd5e1e820ec878917a8215d6f80be05bc485df8e0be,1279
-- type-fun-0.1.2@sha256:c08422f9f9b326778d43063bc4dd3069cec336e15082b274953f3800d766b147,1736
+- github: enobayram/type-fun
+  commit: 35bda1ea0176b1a92f8e96e5cd0efa9dbc4d7e7c
 # Override default flag values for local packages and extra-deps
 # flags: {}
 

@@ -26,15 +26,19 @@ packages:
   original:
     hackage: deriving-aeson-0.2.6.1@sha256:bd7930b334afab3eb53dcdd5e1e820ec878917a8215d6f80be05bc485df8e0be,1279
 - completed:
-    hackage: type-fun-0.1.2@sha256:c08422f9f9b326778d43063bc4dd3069cec336e15082b274953f3800d766b147,1736
+    size: 5775
+    url: https://github.com/enobayram/type-fun/archive/35bda1ea0176b1a92f8e96e5cd0efa9dbc4d7e7c.tar.gz
+    name: type-fun
+    version: 0.1.2
+    sha256: 3eebb09159b162a668f15ee91909088ec138b7125d5bd2fb672b458b73f89d20
     pantry-tree:
-      size: 583
-      sha256: 1240e7bf2820c06d28a910909d2a6f034ec2fd88ce44822eb418a78ae90825af
+      size: 736
+      sha256: 4be2b7a4fdbe6632a4938c8137073c9d66a7ccf8d0ced058373197c335f44018
   original:
-    hackage: type-fun-0.1.2@sha256:c08422f9f9b326778d43063bc4dd3069cec336e15082b274953f3800d766b147,1736
+    url: https://github.com/enobayram/type-fun/archive/35bda1ea0176b1a92f8e96e5cd0efa9dbc4d7e7c.tar.gz
 snapshots:
 - completed:
-    size: 491389
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/15/7.yaml
-    sha256: 92ab6303fe20ec928461c82ce0980b4d17c06f4e66205a2967e476474f686c17
-  original: lts-15.7
+    size: 567241
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/10.yaml
+    sha256: 321b3b9f0c7f76994b39e0dabafdc76478274b4ff74cc5e43d410897a335ad3b
+  original: lts-17.10
