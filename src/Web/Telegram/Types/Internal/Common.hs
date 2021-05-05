@@ -258,7 +258,7 @@ data ChatPhoto = ChatPhoto
   { smallFileId :: Text,
     smallFileUniqueId :: Text,
     bigFileId :: Text,
-    bitFileUniqueId :: Text
+    bigFileUniqueId :: Text
   }
   deriving (Show, Eq, Generic, Default)
   deriving
